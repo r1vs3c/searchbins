@@ -1,0 +1,20 @@
+{
+  "description": "The file is shown in an interactive TUI dialog made for displaying text, arrows can be used to scroll long content.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nwhiptail --textbox --scrolltext \"$LFILE\" 0 0\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./whiptail --textbox --scrolltext \"$LFILE\" 0 0\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo whiptail --textbox --scrolltext \"$LFILE\" 0 0\n"
+      }
+    ]
+  }
+}

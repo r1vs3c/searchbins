@@ -1,0 +1,19 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "scanmem\nshell /bin/sh\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "./scanmem\nshell /bin/sh\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo scanmem\nshell /bin/sh\n"
+      }
+    ]
+  }
+}

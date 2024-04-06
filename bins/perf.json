@@ -1,0 +1,19 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "perf stat /bin/sh\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "./perf stat /bin/sh -p\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo perf stat /bin/sh\n"
+      }
+    ]
+  }
+}

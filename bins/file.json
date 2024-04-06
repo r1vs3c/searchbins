@@ -1,0 +1,26 @@
+{
+  "functions": {
+    "file-read": [
+      {
+        "description": "Each input line is treated as a filename for the `file` command and the output is corrupted by a suffix `:` followed by the result or the error of the operation, so this may not be suitable for binary files.",
+        "code": "LFILE=file_to_read\nfile -f $LFILE\n"
+      },
+      {
+        "description": "Each line is corrupted by a prefix string and wrapped inside quotes, so this may not be suitable for binary files.\n\nIf a line in the target file begins with a `#`, it will not be printed as these lines are parsed as comments.\n\nIt can also be provided with a directory and will read each file in the directory.\n",
+        "code": "LFILE=file_to_read\nfile -m $LFILE\n"
+      }
+    ],
+    "suid": [
+      {
+        "description": "Each input line is treated as a filename for the `file` command and the output is corrupted by a suffix `:` followed by the result or the error of the operation, so this may not be suitable for binary files.",
+        "code": "LFILE=file_to_read\n./file -f $LFILE\n"
+      }
+    ],
+    "sudo": [
+      {
+        "description": "Each input line is treated as a filename for the `file` command and the output is corrupted by a suffix `:` followed by the result or the error of the operation, so this may not be suitable for binary files.",
+        "code": "LFILE=file_to_read\nsudo file -f $LFILE\n"
+      }
+    ]
+  }
+}

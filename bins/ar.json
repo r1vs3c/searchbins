@@ -1,0 +1,20 @@
+{
+  "description": "The file appears amid the binary content of the archive.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "TF=$(mktemp -u)\nLFILE=file_to_read\nar r \"$TF\" \"$LFILE\"\ncat \"$TF\"\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "TF=$(mktemp -u)\nLFILE=file_to_read\n./ar r \"$TF\" \"$LFILE\"\ncat \"$TF\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "TF=$(mktemp -u)\nLFILE=file_to_read\nsudo ar r \"$TF\" \"$LFILE\"\ncat \"$TF\"\n"
+      }
+    ]
+  }
+}

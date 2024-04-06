@@ -1,0 +1,24 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "ex\n!/bin/sh\n"
+      }
+    ],
+    "file-write": [
+      {
+        "code": "ex file_to_write\na\nDATA\n.\nw\nq\n"
+      }
+    ],
+    "file-read": [
+      {
+        "code": "ex file_to_read\n,p\nq\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo ex\n!/bin/sh\n"
+      }
+    ]
+  }
+}

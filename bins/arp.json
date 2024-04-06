@@ -1,0 +1,20 @@
+{
+  "description": "The read file content is corrupted by error prints.\n",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\narp -v -f \"$LFILE\"\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./arp -v -f \"$LFILE\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo arp -v -f \"$LFILE\"\n"
+      }
+    ]
+  }
+}

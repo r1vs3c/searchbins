@@ -1,0 +1,19 @@
+{
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nbase64 \"$LFILE\" | base64 --decode\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./base64 \"$LFILE\" | base64 --decode\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo base64 \"$LFILE\" | base64 --decode\n"
+      }
+    ]
+  }
+}

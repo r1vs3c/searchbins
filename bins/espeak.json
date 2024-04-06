@@ -1,0 +1,20 @@
+{
+  "description": "The file content appears in the middle of other textual information, thus it might not be suitable to read arbitray binary files.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nespeak -qXf \"$LFILE\"\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./espeak -qXf \"$LFILE\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo espeak -qXf \"$LFILE\"\n"
+      }
+    ]
+  }
+}

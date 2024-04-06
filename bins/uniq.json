@@ -1,0 +1,20 @@
+{
+  "description": "The read file content is corrupted by squashing multiple adjacent lines.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nuniq \"$LFILE\"\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./uniq \"$LFILE\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo uniq \"$LFILE\"\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "description": "This program is able to execute [`lua`](/gtfobins/less/) code.",
+  "functions": {
+    "shell": [
+      {
+        "code": "TF=$(mktemp)\necho 'os.execute(\"/bin/sh\")' >$TF\ntshark -Xlua_script:$TF\n"
+      }
+    ]
+  }
+}

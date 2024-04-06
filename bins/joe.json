@@ -1,0 +1,19 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "joe\n^K!/bin/sh\n"
+      }
+    ],
+    "limited-suid": [
+      {
+        "code": "./joe\n^K!/bin/sh\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo joe\n^K!/bin/sh\n"
+      }
+    ]
+  }
+}

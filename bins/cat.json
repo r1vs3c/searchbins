@@ -1,0 +1,19 @@
+{
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\ncat \"$LFILE\"\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./cat \"$LFILE\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo cat \"$LFILE\"\n"
+      }
+    ]
+  }
+}

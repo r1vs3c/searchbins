@@ -1,0 +1,20 @@
+{
+  "description": "The textual file is displayed in an interactive TUI showing only the parts that contain mispelled words.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\naspell -c \"$LFILE\"\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./aspell -c \"$LFILE\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo aspell -c \"$LFILE\"\n"
+      }
+    ]
+  }
+}

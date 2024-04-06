@@ -1,0 +1,14 @@
+{
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\n7z a -ttar -an -so $LFILE | 7z e -ttar -si -so\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo 7z a -ttar -an -so $LFILE | 7z e -ttar -si -so\n"
+      }
+    ]
+  }
+}

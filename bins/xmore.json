@@ -1,0 +1,20 @@
+{
+  "description": "The file is displayed in a Xorg window, so it needs a working graphical environment.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nxmore $LFILE\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./xmore $LFILE\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo xmore $LFILE\n"
+      }
+    ]
+  }
+}

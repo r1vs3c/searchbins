@@ -1,0 +1,19 @@
+{
+  "functions": {
+    "command": [
+      {
+        "code": "COMMAND=id\npidstat -e $COMMAND\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "COMMAND=id\nsudo pidstat -e $COMMAND\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "COMMAND=id\n./pidstat -e $COMMAND\n"
+      }
+    ]
+  }
+}

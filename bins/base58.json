@@ -1,0 +1,14 @@
+{
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nbase58 \"$LFILE\" | base58 --decode\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo base58 \"$LFILE\" | base58 --decode\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nxz -c \"$LFILE\" | xz -d\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./xz -c \"$LFILE\" | xz -d\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo xz -c \"$LFILE\" | xz -d\n"
+      }
+    ]
+  }
+}

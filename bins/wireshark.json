@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "command": [
+      {
+        "description": "This requires GUI interaction. Start Wireshark, then from the main menu, select \"Tools\" -> \"Lua\" -> \"Evaluate\". A window opens that allows to execute [`lua`](/gtfobins/lua/) code.\n",
+        "code": "wireshark"
+      }
+    ],
+    "sudo": [
+      {
+        "description": "This technique can be used to write arbitrary files, i.e., the dump of one UDP packet.\n\nAfter starting Wireshark, and waiting for the capture to begin, deliver the UDP packet, e.g., with `nc` (see below). The capture then stops and the packet dump can be saved:\n\n1. select the only received packet;\n\n2. right-click on \"Data\" from the \"Packet Details\" pane, and select \"Export Packet Bytes...\";\n\n3. choose where to save the packet dump.\n",
+        "code": "PORT=4444\nsudo wireshark -c 1 -i lo -k -f \"udp port $PORT\" &\necho 'DATA' | nc -u 127.127.127.127 \"$PORT\"\n"
+      }
+    ]
+  }
+}

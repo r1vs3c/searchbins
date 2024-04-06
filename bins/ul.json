@@ -1,0 +1,20 @@
+{
+  "description": "The read file content is corrupted by replacing occurrences of `$'\\b_'` to terminal sequences and by converting tabs to spaces.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nul \"$LFILE\"\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./ul \"$LFILE\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo ul \"$LFILE\"\n"
+      }
+    ]
+  }
+}

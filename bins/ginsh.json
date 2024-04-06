@@ -1,0 +1,19 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "ginsh\n!/bin/sh\n"
+      }
+    ],
+    "limited-suid": [
+      {
+        "code": "./ginsh\n!/bin/sh\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo ginsh\n!/bin/sh\n"
+      }
+    ]
+  }
+}

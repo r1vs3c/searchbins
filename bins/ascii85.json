@@ -1,0 +1,14 @@
+{
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nascii85 \"$LFILE\" | ascii85 --decode\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo ascii85 \"$LFILE\" | ascii85 --decode\n"
+      }
+    ]
+  }
+}

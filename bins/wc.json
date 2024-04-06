@@ -1,0 +1,20 @@
+{
+  "description": "The file content is parsed as a sequence of `\\x00` separated paths. On error the file content appears in a message, so this may not be suitable to read binary files.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nwc --files0-from \"$LFILE\"\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./wc --files0-from \"$LFILE\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo wc --files0-from \"$LFILE\"\n"
+      }
+    ]
+  }
+}

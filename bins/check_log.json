@@ -1,0 +1,20 @@
+{
+  "description": "This is the `check_log` Nagios plugin, available e.g. in `/usr/lib/nagios/plugins/`.\n",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nOUTPUT=output_file\ncheck_log -F $LFILE -O $OUTPUT\ncat $OUTPUT\n"
+      }
+    ],
+    "file-write": [
+      {
+        "code": "LFILE=file_to_write\nINPUT=input_file\ncheck_log -F $INPUT -O $LFILE\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_write\nINPUT=input_file\nsudo check_log -F $INPUT -O $LFILE\n"
+      }
+    ]
+  }
+}

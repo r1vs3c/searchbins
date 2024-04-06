@@ -1,0 +1,20 @@
+{
+  "description": "The read file content is corrupted by additional text at the beginning.\n",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\ntbl $LFILE\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./tbl $LFILE\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo tbl $LFILE\n"
+      }
+    ]
+  }
+}

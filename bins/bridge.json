@@ -1,0 +1,20 @@
+{
+  "description": "Outputs the first line of the file (until the first whitespace) inside an error message to stdandard error.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nbridge -b \"$LFILE\"\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./bridge -b \"$LFILE\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo bridge -b \"$LFILE\"\n"
+      }
+    ]
+  }
+}

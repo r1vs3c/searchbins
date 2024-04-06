@@ -1,0 +1,15 @@
+{
+  "description": "The read file content is corrupted by error prints.\n",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nmtr --raw -F \"$LFILE\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo mtr --raw -F \"$LFILE\"\n"
+      }
+    ]
+  }
+}

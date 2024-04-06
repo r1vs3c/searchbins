@@ -1,0 +1,24 @@
+{
+  "functions": {
+    "shell": [
+      {
+        "code": "ash"
+      }
+    ],
+    "file-write": [
+      {
+        "code": "export LFILE=file_to_write\nash -c 'echo DATA > $LFILE'\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "./ash"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo ash"
+      }
+    ]
+  }
+}

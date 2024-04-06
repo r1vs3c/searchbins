@@ -1,0 +1,15 @@
+{
+  "description": "This can be run with elevated privileges to change permissions (`6` denotes the SUID bits) and then read, write, or execute a file.",
+  "functions": {
+    "suid": [
+      {
+        "code": "LFILE=file_to_change\n./chmod 6777 $LFILE\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_change\nsudo chmod 6777 $LFILE\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "description": "While the program is capable of reading the file, it outputs a \"permuted index\" of its content, thus altering it. Adjusting the options could yield more readable outputs.",
+  "functions": {
+    "file-read": [
+      {
+        "code": "LFILE=file_to_read\nptx -w 5000 \"$LFILE\"\n"
+      }
+    ],
+    "suid": [
+      {
+        "code": "LFILE=file_to_read\n./ptx -w 5000 \"$LFILE\"\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "LFILE=file_to_read\nsudo ptx -w 5000 \"$LFILE\"\n"
+      }
+    ]
+  }
+}

