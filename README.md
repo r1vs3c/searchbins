@@ -1,15 +1,15 @@
-# Seachbins
+# Searchbins
 Offline command line tool that searches for [GTFOBins](https://gtfobins.github.io/) binaries that can be used to bypass local security restrictions in misconfigured systems.
 
 The main purpose of the tool is to give you the possibility to search for GTBOBins binaries offline and from the terminal.
 
-The tool is capable of:
-- List potential functions of specific binaries
-- Display commands to abuse all functions or specific functions of a binary
-- List all available binaries in GTFOBins
-- List binaries associated with a specific function
-- List all functions available in GTFOBins
-- Search for potential binaries from a file
+The tool is able to:
+- List the functions of a specific binary which can be abused
+- Show the commands to abuse a specific function or all functions of a binary
+- List all binaries available in GTFOBins
+- List the binaries associated with a specific function
+- List all the functions available in GTFOBins
+- Search GTBOBins binaries from a file and list their respective functions
 
 ## Dependencies
 For the tool to work properly, the following dependencies need to be installed:
@@ -21,7 +21,7 @@ sudo apt install yq jq -y
 ```
 git clone https://github.com/r1vs3c/searchbins.git
 cd searchbins
-./searchbins.sh
+./searchbins.sh -h
 ```
 
 If you want to run the tool from any path on your system, you can run the following script:
