@@ -27,8 +27,8 @@ functions_file="$bins_path/data/functions.json"
 trap ctrl_c SIGINT
 
 function ctrl_c(){
-    echo -e "\n\n${redColour}[-] Saliendo...\n\n${endColour}"
-    tput cnorm; exit 1
+    echo -e "\n\n${redColour}[!] Exiting...${endColour}\n"
+    exit 1
 }
 
 function banner(){
@@ -53,8 +53,32 @@ function helpPanel(){
     echo -e "\n\t${yellowColour}[-s]${endColour}${blueColour} File to search for binaries ${endColour}"
     echo -e "\t\t${greenColour}Example: searchbins -s <path_to_file>${endColour}"
     echo -e "\n\t${yellowColour}[-h]${endColour}${blueColour} Show this panel${endColour}"
+}
 
-    tput cnorm
+function check_dependencies(){
+    counter=0
+    if [[ ! "$(command -v jq)" ]]; then
+        let counter+=1
+    fi
+
+    if [[ $counter -gt 0 ]]; then
+        while true; do
+	    echo -en "\n${redColour}[!] You need to install the jq tool to run the script. Do you want to install it now? ([y]/n) ${endColour}"
+	    read -r
+	    REPLY=${REPLY:-"y"}
+	    if [[ $REPLY =~ ^[Yy]$ ]]; then
+	        echo -e "\n${blueColour}[+] Installing jq...${endColour}\n"
+		sleep 1
+		sudo apt install jq
+                exit 0
+	    elif [[ $REPLY =~ ^[Nn]$ ]]; then
+                echo
+		exit 0
+	    else
+		echo -e "\n${redColour}[!] Invalid response, please try again${endColour}\n"
+	    fi
+	done
+    fi
 }
 
 function list_bin_functions(){
@@ -185,6 +209,12 @@ while getopts "b:f:al:s:h" arg; do
         *) helpPanel; exit 1 ;;
     esac
 done
+
+if [[ $# -eq 0 ]]; then
+    helpPanel; exit 1
+fi
+
+check_dependencies
 
 if [[ "$binary" ]]; then
     if list_all_bins | grep -wqoxi "$binary"; then
