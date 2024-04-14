@@ -56,12 +56,7 @@ function helpPanel(){
 }
 
 function check_dependencies(){
-    counter=0
     if [[ ! "$(command -v jq)" ]]; then
-        let counter+=1
-    fi
-
-    if [[ $counter -gt 0 ]]; then
         while true; do
 	    echo -en "\n${redColour}[!] You need to install the jq tool to run the script. Do you want to install it now? ([y]/n) ${endColour}"
 	    read -r
