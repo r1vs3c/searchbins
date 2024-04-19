@@ -28,7 +28,7 @@ trap ctrl_c SIGINT
 
 function ctrl_c(){
     echo -e "\n\n${redColour}[!] Exiting...${endColour}\n"
-    exit 1
+    tput cnorm; exit 1
 }
 
 function banner(){
@@ -150,12 +150,46 @@ function list_all_bins(){
     elif [[ $# -eq 1 ]]; then
         funct=$1
         functions="$(cat $bins_path/data/functions.json | jq "keys[]" -r)"
+
         for bin in $(list_all_bins); do
             if list_bin_functions "$bin" | grep -wqoxi "$funct"; then
                 bins+="$bin\n"
             fi
         done
+
         echo -e "$bins"
+    fi
+}
+
+function show_all_bins(){
+    echo -e "\n${blueColour}[+] All available binaries in GTFOBins:\n${endColour}"
+    echo -ne "${yellowColour}" && list_all_bins | column && echo -ne "${endColour}"
+    echo
+}
+
+function show_specific_bins(){
+    funct=$1
+    functions="$(cat $bins_path/data/functions.json | jq "keys[]" -r)"
+
+    if echo "$functions" | grep -wqoxi "$funct"; then
+        echo -e "\n${blueColour}[+] Binaries with the ${endColour}${redColour}$funct ${endColour}${blueColour}function:\n${endColour}"
+        tput civis
+        echo -ne "${yellowColour}" && list_all_bins "$funct" | column && echo -ne "${endColour}"
+        echo
+        tput cnorm
+    else
+        echo -e "\n${redColour}[✘] Function \"$funct\" not found! Execute${endColour}${greenColour} searchbins -l functions${endColour}${redColour} to list all available functions\n${endColour}"
+        exit 1
+    fi
+}
+
+function show_all_functions(){
+    if [[ -f $functions_file ]]; then
+        echo -e "\n${blueColour}[+] Available functions:\n${endColour}"
+        echo -ne "${yellowColour}" && cat $bins_path/data/functions.json | jq "keys[]" -r && echo -ne "${endColour}"
+        echo
+    else
+        echo -e "\n${redColour}[✘] The file $functions_file does not exist. Please run the install.sh script${endColour}\n"
     fi
 }
 
@@ -238,32 +272,16 @@ elif [[ "$list" ]]; then
     elif [[ "$list" == "bins" ]]; then
         if [ -d "$bins_path" ] && [ "$(ls -A $bins_path)" ]; then
             if [[ "$funct" ]]; then
-                functions="$(cat $bins_path/data/functions.json | jq "keys[]" -r)"
-                if echo "$functions" | grep -wqoxi "$funct"; then
-                    echo -e "\n${blueColour}[+] Binaries with the ${endColour}${redColour}$funct ${endColour}${blueColour}function:\n${endColour}"
-                    echo -ne "${yellowColour}" && list_all_bins "$funct" | column && echo -ne "${endColour}"
-                    echo
-                else
-                    echo -e "\n${redColour}[✘] Function \"$funct\" not found! Execute${endColour}${greenColour} searchbins -l functions${endColour}${redColour} to list all available functions\n${endColour}"
-                    exit 1
-                fi
+                show_specific_bins "$funct"
             else
-                echo -e "\n${blueColour}[+] All available binaries in GTFOBins:\n${endColour}"
-                echo -ne "${yellowColour}" && list_all_bins | column && echo -ne "${endColour}"
-                echo
+                show_all_bins
             fi
         else
             echo -e "\n${redColour}[✘] The directory $bins_path does not exist. Please run the install.sh script${endColour}\n"
             exit 1
         fi
     elif [[ "$list" == "functions" ]]; then
-        if [[ -f $functions_file ]]; then
-            echo -e "\n${blueColour}[+] Available functions:\n${endColour}"
-            echo -ne "${yellowColour}" && cat $bins_path/data/functions.json | jq "keys[]" -r && echo -ne "${endColour}"
-            echo
-        else
-            echo -e "\n${redColour}[✘] The file $functions_file does not exist. Please run the install.sh script${endColour}\n"
-        fi
+        show_all_functions
     elif [ "$list" != "functions" ] || [ "$list" != "bins" ]; then
         echo -e "\n${redColour}[✘] You need to execute ${endColour}${blueColour}searchbins -l functions${endColour}${redColour} or ${endColour}${blueColour}searchbins -l bins\n${endColour}"
         exit 1
