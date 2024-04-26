@@ -10,6 +10,7 @@ The tool is able to:
 - List the binaries associated with a specific function
 - List all the functions available in GTFOBins
 - Search GTBOBins binaries from a file and list their respective functions
+- Update GTFOBins database automatically
 
 ## Demo
 ![demo](https://github.com/r1vs3c/searchbins/assets/80863982/ec64de80-88a5-4e63-9e0f-9432c09097c1)
@@ -53,8 +54,10 @@ ___] |___ |  | |  \ |___ |  | |__] | | \| ___]  by Juan Rivas (@r1vs3c)
                 Example: searchbins -l <bins/functions>
                          searchbins -l bins -f suid
 
-        [-s] File to search for binaries 
+        [-s] File to search for binaries
                 Example: searchbins -s <path_to_file>
+
+        [-u] Update GTFOBins database
 
         [-h] Show this panel
 ```
