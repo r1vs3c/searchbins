@@ -14,8 +14,10 @@ grayColour="\e[0;37m\033[1m"
 
 # Global variables
 bins_url="https://gtfobins.github.io/"
+functions_url="https://github.com/GTFOBins/GTFOBins.github.io/blob/master/_data/functions.yml"
+info_bin_url="https://raw.githubusercontent.com/GTFOBins/GTFOBins.github.io/master/_gtfobins/"
 
-if [ -d "/usr/local/share/bins" ] && [ "$(ls -A /usr/local/share/bins)" ]; then
+if [[ -d "/usr/local/share/bins" ]] && [[ "$(ls -A /usr/local/share/bins)" ]]; then
     bins_path="/usr/local/share/bins"
 else
     bins_path="./bins"
@@ -52,19 +54,20 @@ function helpPanel(){
     echo -e "\t\t${greenColour}         searchbins -l bins -f suid${endColour}"
     echo -e "\n\t${yellowColour}[-s]${endColour}${blueColour} File to search for binaries ${endColour}"
     echo -e "\t\t${greenColour}Example: searchbins -s <path_to_file>${endColour}"
-    echo -e "\n\t${yellowColour}[-h]${endColour}${blueColour} Show this panel${endColour}"
+    echo -e "\n\t${yellowColour}[-u]${endColour}${blueColour} Update GTFOBins database${endColour}"
+    echo -e "\n\t${yellowColour}[-h]${endColour}${blueColour} Show this panel${endColour}\n"
 }
 
 function check_dependencies(){
-    if [[ ! "$(command -v jq)" ]]; then
+    if [[ ! "$(command -v jq)" ]] || [[ ! "$(command -v yq)" ]]; then
         while true; do
-	    echo -en "\n${redColour}[!] You need to install the jq tool to run the script. Do you want to install it now? ([y]/n) ${endColour}"
+	    echo -en "\n${redColour}[!] You need to install the jq and yq tools to run the script. Do you want to install them now? ([y]/n) ${endColour}"
 	    read -r
 	    REPLY=${REPLY:-"y"}
 	    if [[ $REPLY =~ ^[Yy]$ ]]; then
-	        echo -e "\n${blueColour}[+] Installing jq...${endColour}\n"
+	        echo -e "\n${blueColour}[+] Installing jq and yq...${endColour}\n"
 		sleep 1
-		sudo apt install jq
+		sudo apt install jq yq -y
                 exit 0
 	    elif [[ $REPLY =~ ^[Nn]$ ]]; then
                 echo
@@ -146,7 +149,14 @@ function show_all_codes(){
 
 function list_all_bins(){
     if [[ $# -eq 0 ]]; then
-        ls -lA "$bins_path" | grep -oP '(^| )\K[^ ]+(?=.json)'
+        for filename in $bins_path/*.json; do
+            if [[ -s "$filename" ]]; then
+                bins+="$(basename "$filename" .json)\n"
+            fi
+        done
+
+        echo -e "$bins" | head -n-1
+
     elif [[ $# -eq 1 ]]; then
         funct=$1
         functions="$(cat $bins_path/data/functions.json | jq "keys[]" -r)"
@@ -225,14 +235,56 @@ fi
 
 }
 
+function update_bins(){
+    tput civis
+    counter=0
+    top_counter=20
+
+    if [[ -d "$bins_path" ]]; then
+        if [[ "$bins_path" == "/usr/local/share/bins" ]] && [[ $(id -u) -ne 0 ]]; then
+            echo -e "\n${redColour}[!] You need to run as root!\n${endColour}"
+            exit 1
+        else
+            remote_bins="$(curl -s -X GET $bins_url | grep 'bin-name' | grep -oP '(?<=\>).*?(?=\<)')"
+            new_bins="$(grep -vxF -f <(list_all_bins) <(echo "$remote_bins"))"
+
+            if [[ "$new_bins" ]]; then
+                echo -e "\n${blueColour}[*] Updating the database...\n${endColour}"
+                sleep 2
+                echo -e "${blueColour}[*] Downloading missing binaries...\n${endColour}"
+                for remote_bin in $(echo "$new_bins"); do
+                    if [[ $counter -eq $top_counter ]];then
+                        wait
+                        let top_counter+=20
+                    fi
+                    (curl -s -X GET "$info_bin_url$remote_bin.md" | sed '$d' | yq > $bins_path/$remote_bin.json) &
+                    let counter+=1
+                done; wait
+                echo -e "${greenColour}[+] The database has been updated correctly\n${endColour}"
+            else
+                echo -e "\n${greenColour}[✔] The database is up to date\n${endColour}"
+            fi
+        fi
+
+        if [[ ! -d "$bins_path/data" ]]; then
+            mkdir -p "$bins_path/data"
+            curl -s -X GET "$functions_url" | yq > $bins_path/data/functions.json
+        fi
+     else
+        mkdir "$bins_path"
+        download_bins
+    fi
+    tput cnorm; exit 0
+}
+
 counter=0
-while getopts "b:f:al:s:h" arg; do
+while getopts "b:f:al:s:uh" arg; do
     case $arg in
         b) binary=$OPTARG ;;
         f) funct=$OPTARG ;;
         a) let counter+=1 ;;
         l) list=$OPTARG ;;
-        d) download_bins ;;
+        u) update_bins ;;
         s) file=$OPTARG ;;
         h) helpPanel; exit 0 ;;
         *) helpPanel; exit 1 ;;
@@ -282,7 +334,7 @@ elif [[ "$list" ]]; then
         fi
     elif [[ "$list" == "functions" ]]; then
         show_all_functions
-    elif [ "$list" != "functions" ] || [ "$list" != "bins" ]; then
+    elif [[ "$list" != "functions" ]] || [[ "$list" != "bins" ]]; then
         echo -e "\n${redColour}[✘] You need to execute ${endColour}${blueColour}searchbins -l functions${endColour}${redColour} or ${endColour}${blueColour}searchbins -l bins\n${endColour}"
         exit 1
     fi
