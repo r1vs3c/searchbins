@@ -107,8 +107,8 @@ function show_codes(){
         echo -e "\n${blueColour}[*] Function:${endColour}${redColour} $funct${endColour}${grayColour} ->${endColour}${purpleColour} [${bins_url}gtfobins/${binary}/#${funct}]\n${endColour}"
 
         for i in $(seq 0 $(($number_codes - 1))); do
-            code="$(cat $bins_path/$binary.json| jq ".functions.\"$funct\".[$i].code" -r)"
-            description="$(cat $bins_path/$binary.json | jq ".functions.\"$funct\".[$i].description" -r)"
+            code="$(cat $bins_path/$binary.json| jq ".functions.\"$funct\"[$i].code" -r)"
+            description="$(cat $bins_path/$binary.json | jq ".functions.\"$funct\"[$i].description" -r)"
             if [[ "$description" != "null" ]]; then
                 echo -e "${grayColour}$description\n${endColour}"
             fi
@@ -131,8 +131,8 @@ function show_all_codes(){
         echo -e "${blueColour}[*] Function:${endColour}${redColour} $funct${endColour}${grayColour} ->${endColour}${purpleColour} [${bins_url}gtfobins/${binary}/#${funct}]\n${endColour}"
 
         for i in $(seq 0 $(($number_codes - 1))); do
-            code="$(cat $bins_path/$binary.json | jq ".functions.\"$funct\".[$i].code" -r)"
-            description="$(cat $bins_path/$binary.json | jq ".functions.\"$funct\".[$i].description" -r)"
+            code="$(cat $bins_path/$binary.json | jq ".functions.\"$funct\"[$i].code" -r)"
+            description="$(cat $bins_path/$binary.json | jq ".functions.\"$funct\"[$i].description" -r)"
             if [[ "$description" != "null" ]]; then
                 echo -e "${grayColour}$description\n${endColour}"
             fi
