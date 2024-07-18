@@ -162,7 +162,7 @@ function list_all_bins(){
         functions="$(cat $bins_path/data/functions.json | jq "keys[]" -r)"
 
         for bin in $(list_all_bins); do
-            if list_bin_functions "$bin" | grep -wqoxi "$funct"; then
+            if list_bin_functions "$bin" | grep -wqxi "$funct"; then
                 bins+="$bin\n"
             fi
         done
@@ -181,7 +181,7 @@ function show_specific_bins(){
     funct=$1
     functions="$(cat $bins_path/data/functions.json | jq "keys[]" -r)"
 
-    if echo "$functions" | grep -wqoxi "$funct"; then
+    if echo "$functions" | grep -wqxi "$funct"; then
         echo -e "\n${blueColour}[+] Binaries with the ${endColour}${redColour}$funct ${endColour}${blueColour}function:\n${endColour}"
         tput civis
         echo -ne "${yellowColour}" && list_all_bins "$funct" | column && echo -ne "${endColour}"
@@ -209,6 +209,9 @@ counter=0
 binaries_to_search=$(cat $file | awk NF{'print $NF'} FS='/' | sort -u)
 match_bins=""
 
+tput civis
+echo -e "\n${blueColour}[*] Searching for binaries in the database...${endColour}"
+
 for bin in $binaries_to_search; do
     if list_all_bins | grep -wqoi "$bin"; then
         let counter+=1
@@ -233,6 +236,7 @@ else
     echo
 fi
 
+tput cnorm
 }
 
 function update_bins(){
@@ -277,14 +281,15 @@ function update_bins(){
     tput cnorm; exit 0
 }
 
-counter=0
-while getopts "b:f:al:s:uh" arg; do
+counter1=0
+counter2=0
+while getopts ":b:f:al:s:uh" arg; do
     case $arg in
         b) binary=$OPTARG ;;
         f) funct=$OPTARG ;;
-        a) let counter+=1 ;;
+        a) let counter1+=1 ;;
         l) list=$OPTARG ;;
-        u) update_bins ;;
+        u) let counter2+=1 ;;
         s) file=$OPTARG ;;
         h) helpPanel; exit 0 ;;
         *) helpPanel; exit 1 ;;
@@ -298,17 +303,15 @@ fi
 check_dependencies
 
 if [[ "$binary" ]]; then
-    if list_all_bins | grep -wqoxi "$binary"; then
-        if [ "$funct" ] && [ $counter -eq 1 ]; then
+    if list_all_bins | grep -wqxi "$binary"; then
+        if [[ "$funct" && $counter1 -eq 1 ]]; then
+            helpPanel; exit 1
+        elif [[ "$list" || "$file" || $counter2 -eq 1 ]]; then
             helpPanel; exit 1
         elif [[ "$funct" ]]; then
             show_codes "$binary" "$funct"
-        elif [[ $counter -eq 1 ]]; then
+        elif [[ $counter1 -eq 1 ]]; then
             show_all_codes "$binary"
-        elif [[ "$list" ]]; then
-            helpPanel; exit 1
-        elif [[ "$file" ]] ;then
-            helpPanel; exit 1
         else
             show_bin_functions "$binary"
         fi
@@ -317,9 +320,7 @@ if [[ "$binary" ]]; then
         exit 1
     fi
 elif [[ "$list" ]]; then
-    if [[ "$file" ]] ;then
-        helpPanel; exit 1
-    elif [[ $counter -eq 1 ]]; then
+    if [[ "$file" || $counter1 -eq 1 || $counter2 -eq 1 ]] ;then
         helpPanel; exit 1
     elif [[ "$list" == "bins" ]]; then
         if [ -d "$bins_path" ] && [ "$(ls -A $bins_path)" ]; then
@@ -334,26 +335,24 @@ elif [[ "$list" ]]; then
         fi
     elif [[ "$list" == "functions" ]]; then
         show_all_functions
-    elif [[ "$list" != "functions" ]] || [[ "$list" != "bins" ]]; then
+    else
         echo -e "\n${redColour}[✘] You need to execute ${endColour}${blueColour}searchbins -l functions${endColour}${redColour} or ${endColour}${blueColour}searchbins -l bins\n${endColour}"
         exit 1
     fi
-elif [[ $counter -eq 1 ]]; then
-    if [[ "$funct" ]]; then
-        helpPanel; exit 1
-    else
-        echo -e "\n${redColour}[✘] You need to specify the binary you want to enumerate:${endColour}${blueColour} searchbins -b <bin> -a\n${endColour}"
-        exit 1
-    fi
-elif [[ "$funct" ]]; then
-    echo -e "\n${redColour}[✘] You need to execute ${endColour}${blueColour}searchbins -f <function> -l bins${endColour}${redColour} or${endColour}${blueColour} searchbins -f <function> -b <bin>\n${endColour}"
-    exit 1
 elif [[ "$file" ]]; then
-    if [[ -f "$file" ]]; then
+    if [[ $counter1 -eq 1 || $counter2 -eq 1 ]] ;then
+        helpPanel; exit 1
+    elif [[ -f "$file" ]]; then
         search_file "$file"
     else
         echo -e "\n${redColour}[✘] File \"$file\" does not exist\n${redColour}"
         exit 1
+    fi
+elif [[ $counter2 -eq 1 ]]; then
+    if [[ "$funct" || $counter1 -eq 1 ]]; then
+        helpPanel; exit 1
+    else
+        update_bins
     fi
 else
     helpPanel; exit 1
